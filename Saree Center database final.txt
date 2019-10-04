@@ -1,0 +1,149 @@
+drop database sareecenter;
+create database SareeCenter;
+use SareeCenter;
+
+create table Customer(
+cid varchar(15),
+name varchar(200)not null,
+nic_no varchar(20),
+tel_no int,
+address varchar(150),
+constraint primary key(cid)
+);
+
+
+
+create table Supplier(
+sup_id varchar(20),
+sup_name varchar(200)not null,
+company_name Varchar(200)not null,
+nic_no varchar(20)not null,
+tel_no int(20)not null,
+constraint primary key(sup_id)
+);
+
+create table Item(
+i_code varchar(20),
+type varchar(40)not null,
+brand varchar(40)not null,
+colour varchar(20)not null,
+description varchar(200),
+buying_price double(20,2)not null,
+selling_price double(20,2)not null,
+qty_on_hand int not null,
+constraint primary key(i_code)
+);
+
+ 
+create table GRN(
+grn_id varchar(20),
+sup_id varchar(20)not null,
+date varchar(20) not null,
+total_qty int(20)not null,
+total_price double(20,2)not null,
+constraint primary key(grn_id),
+constraint  foreign key(sup_id) references Supplier(sup_id)
+on delete cascade on update cascade
+);
+
+
+
+create table GRNDetails(
+grn_id varchar(20)not null,
+i_code varchar(20)not null,
+unit_price double(20,2)not null,
+qty int(20)not null,
+constraint foreign key(grn_id) references GRN(grn_id)
+on delete cascade on update cascade,
+constraint foreign key(i_code) references Item(i_code)
+on delete cascade on update cascade
+);
+
+
+
+create table Damage(
+did varchar(20),
+grn_id varchar(20)not null,
+i_code varchar(20)not null,
+description varchar(200)not null,
+qty int(20) not null,
+constraint primary key(did),
+constraint foreign key(grn_id) references GRN(grn_id)
+on delete cascade on update cascade,
+constraint foreign key(i_code) references Item(i_code)
+on delete cascade on update cascade
+);
+
+
+create table Orders(
+oid varchar(20),
+o_date varchar(20) not null,
+cid varchar(15)not null,
+total_price double(20,2)not null,
+total_qty int not null,
+constraint primary key(oid),
+constraint foreign key(cid) references Customer(cid)
+on delete cascade on update cascade
+);
+
+
+create table OrderDetails(
+oid varchar(20)not null,
+i_code varchar(20)not null,
+price double(20,2)not null,
+qty int(20)not null,
+constraint foreign key(oid) references Orders(oid),
+constraint foreign key(i_code) references Item(i_code)
+on delete cascade on update cascade
+); 
+
+
+create table Payment(
+pid varchar(20),
+p_date varchar(20) not null,
+oid varchar(20)not null,
+amount double(20,2)not null,
+discount double(20,2),
+net_amount double(20,2) not null, 
+cash double(20,2)not null,
+balance double(20,2)not null,
+constraint primary key(pid),
+constraint foreign key(oid) references Orders(oid)
+on delete cascade on update cascade
+);
+
+
+
+
+create table User(
+user_id varchar(20),
+name varchar(100),
+prefferd_name varchar(100),
+password varchar(100),
+tel_no varchar(20),
+nic_no varchar(20),
+constraint primary key(user_id)
+);
+
+
+create table GRNPayments(
+grnp_id varchar(20),
+date varchar(20)not null,
+grn_id varchar(20)not null,
+total_price double(20,2)not null,
+total_qty int(20)not null,
+constraint primary key(grnp_id),
+constraint foreign key(grn_id) references GRN(grn_id)
+on delete cascade on update cascade
+);
+
+
+
+
+
+
+
+
+
+
+
