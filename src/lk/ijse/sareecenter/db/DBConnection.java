@@ -30,7 +30,7 @@ public class DBConnection {
         try {
 
             Properties dbProperties = new Properties();
-            File dbFile = new File("Settings/mySettings.properties");
+            File dbFile = new File("settings/db-settings.properties");
             FileReader dbFileReader = new FileReader(dbFile);
             dbProperties.load(dbFileReader);
 
